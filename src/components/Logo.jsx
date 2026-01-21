@@ -4,7 +4,7 @@ import { AppConfig } from '../lib/app_config';
 
 export const Logo = ({ size = "normal" }) => {
     const [error, setError] = useState(false);
-    const logoUrl = "https://kwzejxqfkmagbrbrymgd.supabase.co/storage/v1/object/public/logo/logo3%20ALMEIDA%20E%20OLOVEIRA%20ADV.webp";
+    const logoUrl = "/logo-new.webp";
 
     if (error) {
         return (

@@ -7,5 +7,5 @@
 // 4. Copie a "anon public" key e cole abaixo
 // ============================================================
 
-export const CLIENTE_SUPABASE_URL = "https://kwzejxqfkmagbrbrymgd.supabase.co";
-export const CLIENTE_SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt3emVqeHFma21hZ2JyYnJ5bWdkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMwNDIyNTUsImV4cCI6MjA3ODYxODI1NX0.y-C7LYR_f7rSIL4L5FLR5rwgNh5C9cbLa022PclQwvw";
+export const CLIENTE_SUPABASE_URL = "https://meipwcqziwkalwzelltl.supabase.co";
+export const CLIENTE_SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1laXB3Y3F6aXdrYWx3emVsbHRsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg5NTczODksImV4cCI6MjA4NDUzMzM4OX0.FDRbRNDSrtrP1zaAlygFlWyPfu4HlRFjQypL2860tvg";
