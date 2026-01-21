@@ -7,10 +7,10 @@ export const Logo = ({ size = "normal" }) => {
     // Como ainda não adicionei logoUrl na config, vou deixar hardcoded por enquanto mas preparado
 
     return (
-        <img
-            src="https://kwzejxqfkmagbrbrymgd.supabase.co/storage/v1/object/public/logo/logo3%20ALMEIDA%20E%20OLOVEIRA%20ADV.webp"
-            alt={AppConfig.officeName}
-            className={cn("object-contain", size === "large" ? "h-40" : size === "small" ? "h-12" : "h-24")}
-        />
+        <div className={cn("text-white font-serif font-bold tracking-widest uppercase border-2 border-[#C9A857] px-4 py-2 rounded-sm",
+            size === "large" ? "text-3xl" : size === "small" ? "text-sm" : "text-xl"
+        )}>
+            {AppConfig.officeName}
+        </div>
     );
 };

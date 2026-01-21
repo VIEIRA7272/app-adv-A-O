@@ -78,7 +78,7 @@ export function LoginPage({ supabase }) {
                 </div>
 
                 <h2 className="text-xl text-white font-serif text-center mb-6 flex items-center justify-center gap-2 tracking-widest uppercase text-xs font-bold opacity-80">
-                    <Lock size={14} className="text-[#C9A857]" /> Acesso Restrito - v2026 BETA
+                    <Lock size={14} className="text-[#C9A857]" /> Acesso Restrito
                 </h2>
 
                 {error && (
