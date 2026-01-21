@@ -337,7 +337,19 @@ export function UploadForm({ onSuccess, supabase }) {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 {/* PDF Dropzone */}
                                 <div className="space-y-2">
-                                    <label className="block text-xs font-bold text-[#C9A857] uppercase tracking-wider">Documento PDF</label>
+                                    <label className="flex items-center gap-2 text-xs font-bold text-[#C9A857] uppercase tracking-wider">
+                                        Documento PDF
+                                        <div className="group relative cursor-help">
+                                            <HelpCircle size={14} className="text-gray-500 hover:text-[#C9A857] transition-colors" />
+                                            <div className="absolute left-0 bottom-full mb-2 w-64 bg-[#222] border border-[#C9A857]/30 text-gray-300 text-[10px] normal-case p-3 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 shadow-xl">
+                                                <p className="font-bold text-[#C9A857] mb-1">📄 Formato do PDF</p>
+                                                <p className="mb-2">• Tamanho máximo: <strong>50MB</strong></p>
+                                                <p className="mb-2">• Formatos aceitos: <strong>.pdf</strong></p>
+                                                <p className="text-gray-400">💡 Para comprimir PDFs grandes, use: <a href="https://www.ilovepdf.com/pt/comprimir_pdf" target="_blank" className="text-[#C9A857] underline">iLovePDF.com</a></p>
+                                                <div className="absolute top-full left-4 -mt-1 border-4 border-transparent border-t-[#C9A857]/30"></div>
+                                            </div>
+                                        </div>
+                                    </label>
                                     <div
                                         className={cn(
                                             "h-40 border border-dashed border-[#444] rounded-xl flex flex-col items-center justify-center text-center p-4 bg-[#1a1a1a] transition-all cursor-pointer hover:bg-[#222] hover:border-[#C9A857]/50 group relative overflow-hidden",
@@ -371,7 +383,20 @@ export function UploadForm({ onSuccess, supabase }) {
 
                                 {/* Video Dropzone */}
                                 <div className="space-y-2">
-                                    <label className="block text-xs font-bold text-[#C9A857] uppercase tracking-wider">Vídeo Explicativo</label>
+                                    <label className="flex items-center gap-2 text-xs font-bold text-[#C9A857] uppercase tracking-wider">
+                                        Vídeo Explicativo
+                                        <div className="group relative cursor-help">
+                                            <HelpCircle size={14} className="text-gray-500 hover:text-[#C9A857] transition-colors" />
+                                            <div className="absolute right-0 bottom-full mb-2 w-64 bg-[#222] border border-[#C9A857]/30 text-gray-300 text-[10px] normal-case p-3 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 shadow-xl">
+                                                <p className="font-bold text-[#C9A857] mb-1">🎬 Formato do Vídeo</p>
+                                                <p className="mb-2">• Tamanho máximo: <strong>50MB</strong></p>
+                                                <p className="mb-2">• Formatos aceitos: <strong>.mp4, .mov, .webm</strong></p>
+                                                <p className="mb-2">• Resolução ideal: <strong>720p ou 1080p (16:9)</strong></p>
+                                                <p className="text-gray-400">💡 Para comprimir vídeos, use: <a href="https://www.freeconvert.com/pt/video-compressor" target="_blank" className="text-[#C9A857] underline">FreeConvert.com</a></p>
+                                                <div className="absolute top-full right-4 -mt-1 border-4 border-transparent border-t-[#C9A857]/30"></div>
+                                            </div>
+                                        </div>
+                                    </label>
                                     <div
                                         className={cn(
                                             "h-40 border border-dashed border-[#444] rounded-xl flex flex-col items-center justify-center text-center p-4 bg-[#1a1a1a] transition-all cursor-pointer hover:bg-[#222] hover:border-[#C9A857]/50 group relative overflow-hidden",
