@@ -511,12 +511,23 @@ export function AdminDashboard({ supabase, session }) {
                                             Controle quem tem acesso ao painel. Apenas Admins podem criar ou remover usuários.
                                         </p>
                                     </div>
-                                    <button
-                                        onClick={() => { navigator.clipboard.writeText(window.location.origin + '/cadastro'); showToast('success', 'Link copiado!'); }}
-                                        className="flex items-center gap-2 px-4 py-2 bg-[#1a1a1a] hover:bg-[#222] text-[#C9A857] rounded-lg text-xs font-bold uppercase tracking-wider transition-colors border border-[#C9A857]/20 hover:border-[#C9A857]/50"
-                                    >
-                                        <Copy size={14} /> Copiar Link de Cadastro
-                                    </button>
+                                    <div className="flex items-center gap-2">
+                                        <button
+                                            onClick={() => { navigator.clipboard.writeText(window.location.origin + '/cadastro'); showToast('success', 'Link copiado!'); }}
+                                            className="flex items-center gap-2 px-4 py-2 bg-[#1a1a1a] hover:bg-[#222] text-[#C9A857] rounded-lg text-xs font-bold uppercase tracking-wider transition-colors border border-[#C9A857]/20 hover:border-[#C9A857]/50"
+                                        >
+                                            <Copy size={14} /> Copiar Link de Cadastro
+                                        </button>
+                                        <div className="group relative cursor-help">
+                                            <HelpCircle size={16} className="text-gray-500 hover:text-[#C9A857] transition-colors" />
+                                            <div className="absolute right-0 bottom-full mb-2 w-64 bg-[#222] border border-[#C9A857]/30 text-gray-300 text-[10px] normal-case p-3 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 shadow-xl">
+                                                <p className="font-bold text-[#C9A857] mb-1">🔗 Link de Cadastro</p>
+                                                <p className="mb-2">Envie este link para novos membros da equipe criarem suas próprias contas.</p>
+                                                <p className="text-gray-400">⚠️ As contas criadas começam como "Operador". Promova a Admin manualmente se necessário.</p>
+                                                <div className="absolute top-full right-4 -mt-1 border-4 border-transparent border-t-[#C9A857]/30"></div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
