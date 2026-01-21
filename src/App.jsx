@@ -135,7 +135,7 @@ export default function App() {
   }, [libsLoaded, supabase, currentRoute]);
 
   if (loadError) return <div className="text-red-500 p-10">Erro Crítico: {loadError}</div>;
-  if (!libsLoaded) return <div className="text-[#C9A857] p-10 flex items-center justify-center h-screen"><Loader2 className="animate-spin mr-2" /> Carregando sistema...</div>;
+  if (!libsLoaded) return <div className="text-[#E5B935] p-10 flex items-center justify-center h-screen"><Loader2 className="animate-spin mr-2" /> Carregando sistema...</div>;
 
   return (
     <>

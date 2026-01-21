@@ -60,7 +60,7 @@ export function LoginPage({ supabase }) {
 
             {/* Notification Toast */}
             {notification && (
-                <div className={`fixed top-6 right-6 z-50 animate-slide-in px-6 py-4 rounded-lg shadow-2xl border flex items-center gap-3 max-w-sm ${notification.type === 'success' ? 'bg-[#1a1a1a] border-[#C9A857]/50 text-[#C9A857]' : 'bg-[#1a1a1a] border-red-500/50 text-red-400'}`}>
+                <div className={`fixed top-6 right-6 z-50 animate-slide-in px-6 py-4 rounded-lg shadow-2xl border flex items-center gap-3 max-w-sm ${notification.type === 'success' ? 'bg-[#1a1a1a] border-[#E5B935]/50 text-[#C9A857]' : 'bg-[#1a1a1a] border-red-500/50 text-red-400'}`}>
                     <div className={`p-2 rounded-full ${notification.type === 'success' ? 'bg-[#C9A857]/10' : 'bg-red-900/20'}`}>
                         {notification.type === 'success' ? <Lock size={16} /> : <Loader2 size={16} />}
                     </div>

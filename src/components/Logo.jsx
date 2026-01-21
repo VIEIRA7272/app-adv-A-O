@@ -8,7 +8,7 @@ export const Logo = ({ size = "normal" }) => {
 
     if (error) {
         return (
-            <div className={cn("text-white font-serif font-bold tracking-widest uppercase border-2 border-[#C9A857] px-4 py-2 rounded-sm",
+            <div className={cn("text-white font-serif font-bold tracking-widest uppercase border-2 border-[#E5B935] px-4 py-2 rounded-sm",
                 size === "large" ? "text-3xl" : size === "small" ? "text-sm" : "text-xl"
             )}>
                 {AppConfig.officeName}

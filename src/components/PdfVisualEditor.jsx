@@ -104,7 +104,7 @@ function PdfVisualEditorContent({ pdfFile, qrCodeDataUrl, onSave, onCancel }) {
 
     return (
         <div className="fixed inset-0 z-[60] bg-black/90 flex flex-col items-center justify-center p-4">
-            <div className="bg-[#1E1E1E] p-4 rounded-lg border border-[#C9A857] w-full max-w-5xl h-[90vh] flex flex-col">
+            <div className="bg-[#1E1E1E] p-4 rounded-lg border border-[#E5B935] w-full max-w-5xl h-[90vh] flex flex-col">
                 <div className="flex justify-between items-center mb-4">
                     <h3 className="text-xl text-[#C9A857] font-bold flex items-center gap-2">
                         <Move size={20} /> Arraste o QR Code para a posição desejada

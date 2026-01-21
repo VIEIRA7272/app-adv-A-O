@@ -202,7 +202,7 @@ export function UploadForm({ onSuccess, supabase }) {
                 {/* Left Sidebar: Context & Steps (15%) */}
                 <div className="hidden lg:flex flex-col gap-6 sticky top-24 h-fit">
                     {/* Welcome / Context */}
-                    <div className="p-5 rounded-2xl border border-[#C9A857]/20 bg-[#111]/50 backdrop-blur-sm shadow-lg shadow-[#C9A857]/5">
+                    <div className="p-5 rounded-2xl border border-[#E5B935]/20 bg-[#111]/50 backdrop-blur-sm shadow-lg shadow-[#C9A857]/5">
                         <h3 className="text-[#C9A857] font-serif font-bold text-xl mb-3 flex items-center gap-2">
                             Excelência Jurídica
                         </h3>

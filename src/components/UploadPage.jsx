@@ -242,7 +242,7 @@ export function UploadPage({ supabase, session, onSuccess }) {
             )}
 
             {/* Header */}
-            <header className="border-b border-[#C9A857]/20 bg-[#121212] py-4 px-8 flex justify-center items-center relative">
+            <header className="border-b border-[#E5B935]/20 bg-[#121212] py-4 px-8 flex justify-center items-center relative">
                 {session?.user?.email && (
                     <div className="absolute left-8 top-1/2 -translate-y-1/2 text-xs text-gray-500 font-mono hidden md:block">
                         <span className="text-[#C9A857]">user:</span> {session.user.email}

@@ -250,7 +250,7 @@ export function AdminDashboard({ supabase, session }) {
     // --- RENDER HELPERS ---
 
     const StatsCard = ({ title, value, icon, color }) => (
-        <div className="bg-[#1a1a1a]/50 backdrop-blur border border-[#333] p-5 rounded-xl flex items-center justify-between group hover:border-[#C9A857]/30 transition-all">
+        <div className="bg-[#1a1a1a]/50 backdrop-blur border border-[#333] p-5 rounded-xl flex items-center justify-between group hover:border-[#E5B935]/30 transition-all">
             <div>
                 <p className="text-gray-500 text-xs font-bold uppercase tracking-wider mb-1">{title}</p>
                 <h3 className="text-2xl font-bold text-white font-serif">{value}</h3>

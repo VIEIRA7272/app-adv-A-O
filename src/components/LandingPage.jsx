@@ -92,7 +92,7 @@ export function LandingPage({ data, supabase }) {
             <div className="min-h-screen bg-[#050505] flex items-center justify-center p-4 font-sans relative overflow-hidden">
                 {/* Background Effects */}
                 <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#1a1a1a] via-[#050505] to-[#000000]"></div>
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#C9A857]/5 rounded-full blur-[100px] animate-pulse"></div>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#E5B935]/5 rounded-full blur-[100px] animate-pulse"></div>
 
                 <div className="w-full max-w-md bg-[#121212]/80 backdrop-blur-xl border border-[#C9A857]/30 p-6 md:p-10 rounded-2xl shadow-2xl text-center relative z-10 animate-scale-in">
                     <div className="flex justify-center mb-6">

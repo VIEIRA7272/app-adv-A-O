@@ -237,7 +237,7 @@ export function UploadModal({ isOpen, onClose, onSuccess, supabase }) {
     // Default Modal Content
     return (
         <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
-            <div className="bg-[#1E1E1E] border border-[#C9A857]/50 rounded-lg w-full max-w-2xl shadow-2xl relative animate-scale-in max-h-[90vh] overflow-y-auto custom-scrollbar">
+            <div className="bg-[#1E1E1E] border border-[#E5B935]/50 rounded-lg w-full max-w-2xl shadow-2xl relative animate-scale-in max-h-[90vh] overflow-y-auto custom-scrollbar">
 
                 {/* Header */}
                 <div className="p-6 border-b border-[#333] flex justify-between items-center sticky top-0 bg-[#1E1E1E] z-10">

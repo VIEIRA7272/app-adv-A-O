@@ -1,12 +1,12 @@
 import React from 'react';
 
 export const GlobalStyles = () => (
-    <style>{`
+  <style>{`
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap');
     
     :root {
-      --gold-primary: #C9A857;
-      --gold-dark: #9e8036;
+      --gold-primary: #E5B935;
+      --gold-dark: #C4A030;
       --bg-dark: #1a1a1a;
     }
 

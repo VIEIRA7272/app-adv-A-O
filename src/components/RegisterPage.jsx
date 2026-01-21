@@ -75,7 +75,7 @@ export function RegisterPage({ supabase }) {
 
                 <div className="text-center mb-8">
                     <h2 className="text-xl text-white font-bold mb-2 flex items-center justify-center gap-2">
-                        <UserPlus size={20} className="text-[#C9A857]" /> Cadastro de Equipe
+                        <UserPlus size={20} className="text-[#E5B935]" /> Cadastro de Equipe
                     </h2>
                     <p className="text-gray-500 text-xs uppercase tracking-widest">Acesso Exclusivo para Advogados</p>
                 </div>

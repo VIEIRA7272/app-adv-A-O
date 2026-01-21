@@ -4,7 +4,7 @@ import { CheckCircle, Download, ExternalLink } from 'lucide-react';
 export function SuccessPage({ data, onReset, onEdit }) {
     return (
         <div className="fixed inset-0 z-50 bg-black/85 flex flex-col items-center justify-center p-6 overflow-y-auto animate-fade-in">
-            <div className="w-full max-w-4xl bg-[#1E1E1E] p-8 rounded-lg border border-[#C9A857] shadow-2xl flex flex-col md:flex-row gap-8">
+            <div className="w-full max-w-4xl bg-[#1E1E1E] p-8 rounded-lg border border-[#E5B935] shadow-2xl flex flex-col md:flex-row gap-8">
 
                 {/* Coluna da Esquerda: Ações */}
                 <div className="flex-1 flex flex-col items-center text-center justify-center">

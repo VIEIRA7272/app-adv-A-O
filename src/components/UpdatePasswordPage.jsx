@@ -61,7 +61,7 @@ export function UpdatePasswordPage({ supabase }) {
                 </div>
 
                 <h2 className="text-xl text-white font-serif text-center mb-6 flex items-center justify-center gap-2">
-                    <Lock size={20} className="text-[#C9A857]" /> Definir Nova Senha
+                    <Lock size={20} className="text-[#E5B935]" /> Definir Nova Senha
                 </h2>
 
                 {error && (
