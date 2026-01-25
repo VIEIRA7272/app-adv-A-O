@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Logo } from './Logo';
 import { Loader2, Lock } from 'lucide-react';
 import { AppConfig } from '../lib/app_config';
+import { OptimizedBackground } from './OptimizedBackground';
 
 export function LoginPage({ supabase }) {
     const [email, setEmail] = useState('');
@@ -49,15 +50,10 @@ export function LoginPage({ supabase }) {
     };
 
     return (
-        <div
-            className="min-h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center p-4 font-sans animate-fade-in relative"
-            style={{
-                backgroundImage: `url('/login-bg.png')`
-            }}
+        <OptimizedBackground
+            imageSrc="/login-bg.png"
+            className="min-h-screen flex items-center justify-center p-4 font-sans animate-fade-in"
         >
-            {/* Dark Overlay for Readability */}
-            <div className="absolute inset-0 bg-black/70 backdrop-blur-sm z-0"></div>
-
             {/* Notification Toast */}
             {notification && (
                 <div className={`fixed top-6 right-6 z-50 animate-slide-in px-6 py-4 rounded-lg shadow-2xl border flex items-center gap-3 max-w-sm ${notification.type === 'success' ? 'bg-[#1a1a1a] border-[#E5B935]/50 text-[#C9A857]' : 'bg-[#1a1a1a] border-red-500/50 text-red-400'}`}>
@@ -149,11 +145,11 @@ export function LoginPage({ supabase }) {
             </div>
 
             {/* Legal Footer */}
-            <div className="absolute bottom-6 text-center w-full z-10 opacity-40 pointer-events-none">
+            <div className="absolute bottom-6 text-center w-full z-20 opacity-40 pointer-events-none">
                 <p className="text-[10px] text-white uppercase tracking-[0.3em] font-light">
                     {AppConfig.officeName} &bull; Protegido por Criptografia SSL &bull; © 2026
                 </p>
             </div>
-        </div>
+        </OptimizedBackground>
     );
 }

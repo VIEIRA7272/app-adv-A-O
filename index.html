@@ -3,12 +3,25 @@
 
 <head>
   <meta charset="UTF-8" />
+  <!-- Performance: Preconnect to critical origins -->
+  <link rel="preconnect" href="https://unpkg.com" crossorigin />
+  <link rel="preconnect" href="https://ipapi.co" crossorigin />
+  <link rel="dns-prefetch" href="https://unpkg.com" />
+  
   <!-- Favicon -->
   <link rel="icon" type="image/webp" href="/logo-new.webp" />
   <!-- PWA Manifest -->
   <link rel="manifest" href="/manifest.json" />
   <link rel="apple-touch-icon" href="/logo-new.webp" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- Mobile Optimization -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  
+  <!-- Touch optimization -->
+  <meta name="format-detection" content="telephone=no" />
 
   <!-- PERSONALIZE: Altere o título abaixo -->
   <title>Portal Jurídico Digital | Documentos com Vídeo</title>

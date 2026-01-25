@@ -6,6 +6,7 @@ import {
     CheckCircle, Lock, Loader2, Info, ChevronRight, Search, Upload, ChevronLeft, Database, HelpCircle
 } from 'lucide-react';
 import { UploadForm } from './UploadForm';
+import { OptimizedBackground } from './OptimizedBackground';
 
 export function AdminDashboard({ supabase, session }) {
     const [videos, setVideos] = useState([]);
@@ -262,13 +263,11 @@ export function AdminDashboard({ supabase, session }) {
     );
 
     return (
-        <div
-            className="min-h-screen bg-cover bg-center bg-no-repeat font-sans text-slate-200 relative overflow-hidden animate-fade-in"
-            style={{ backgroundImage: `url('/login-bg.png')` }}
+        <OptimizedBackground
+            imageSrc="/login-bg.png"
+            className="min-h-screen font-sans text-slate-200 overflow-hidden animate-fade-in"
+            overlayClass="bg-slate-950/90"
         >
-            {/* Dark Overlay for Readability */}
-            <div className="absolute inset-0 bg-slate-950/90 backdrop-blur-sm z-0"></div>
-
             <div className="relative z-10 h-full overflow-y-auto">
                 {/* Notifications */}
                 {notification && (
@@ -780,6 +779,6 @@ export function AdminDashboard({ supabase, session }) {
                     )
                 }
             </div >
-        </div >
+        </OptimizedBackground>
     );
 }

@@ -1,23 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { Loader2 } from 'lucide-react';
 import { createClient } from '@supabase/supabase-js';
-import { pdfjs } from 'react-pdf';
 
 import { GlobalStyles } from './components/GlobalStyles';
 import { ErrorBoundary } from './components/ErrorBoundary';
-import { LandingPage } from './components/LandingPage';
-import { UploadPage } from './components/UploadPage';
-import { SuccessPage } from './components/SuccessPage';
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from './lib/config';
 
-// Worker setup for react-pdf
-pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+// ============================================
+// LAZY LOADING - Componentes carregados sob demanda
+// Isso reduz drasticamente o bundle inicial
+// ============================================
 
-import { Component } from 'lucide-react';
-import { LoginPage } from './components/LoginPage';
-import { AdminDashboard } from './components/AdminDashboard';
-import { RegisterPage } from './components/RegisterPage';
-import { UpdatePasswordPage } from './components/UpdatePasswordPage';
+// Componentes pesados - carregados apenas quando necessário
+const AdminDashboard = lazy(() => import('./components/AdminDashboard').then(m => ({ default: m.AdminDashboard })));
+const UploadPage = lazy(() => import('./components/UploadPage').then(m => ({ default: m.UploadPage })));
+const LandingPage = lazy(() => import('./components/LandingPage').then(m => ({ default: m.LandingPage })));
+const LoginPage = lazy(() => import('./components/LoginPage').then(m => ({ default: m.LoginPage })));
+const RegisterPage = lazy(() => import('./components/RegisterPage').then(m => ({ default: m.RegisterPage })));
+const UpdatePasswordPage = lazy(() => import('./components/UpdatePasswordPage').then(m => ({ default: m.UpdatePasswordPage })));
+const SuccessPage = lazy(() => import('./components/SuccessPage').then(m => ({ default: m.SuccessPage })));
+
+// Componente de Loading elegante e leve
+const PageLoader = () => (
+  <div className="min-h-screen bg-[#050505] flex flex-col items-center justify-center">
+    <div className="w-12 h-12 border-3 border-[#C9A857]/20 border-t-[#C9A857] rounded-full animate-spin mb-4"></div>
+    <p className="text-[#C9A857]/70 text-sm font-medium">Carregando...</p>
+  </div>
+);
 
 // --- Componente Principal ---
 export default function App() {
@@ -141,63 +150,66 @@ export default function App() {
     <>
       <GlobalStyles />
       <ErrorBoundary>
-        {/* ROTEAMENTO SIMPLES (CLIENT-SIDE) */}
+        {/* Suspense wrapper para lazy loading */}
+        <Suspense fallback={<PageLoader />}>
+          {/* ROTEAMENTO SIMPLES (CLIENT-SIDE) */}
 
-        {currentRoute === 'login' && (
-          <LoginPage supabase={supabase} />
-        )}
+          {currentRoute === 'login' && (
+            <LoginPage supabase={supabase} />
+          )}
 
-        {currentRoute === 'admin' && (
-          <AdminDashboard supabase={supabase} session={session} />
-        )}
+          {currentRoute === 'admin' && (
+            <AdminDashboard supabase={supabase} session={session} />
+          )}
 
-        {currentRoute === '404' && (
-          <div className="min-h-screen bg-[#050505] flex items-center justify-center text-center p-6">
-            <div>
-              <h1 className="text-[#C9A857] text-4xl font-serif font-bold mb-4">404</h1>
-              <p className="text-gray-400">Página não encontrada.</p>
-              <a href="/login" className="mt-6 inline-block text-[#C9A857] underline hover:text-white">Voltar ao Início</a>
+          {currentRoute === '404' && (
+            <div className="min-h-screen bg-[#050505] flex items-center justify-center text-center p-6">
+              <div>
+                <h1 className="text-[#C9A857] text-4xl font-serif font-bold mb-4">404</h1>
+                <p className="text-gray-400">Página não encontrada.</p>
+                <a href="/login" className="mt-6 inline-block text-[#C9A857] underline hover:text-white">Voltar ao Início</a>
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {currentRoute === 'landing' && landingData && (
-          <LandingPage data={landingData} supabase={supabase} />
-        )}
+          {currentRoute === 'landing' && landingData && (
+            <LandingPage data={landingData} supabase={supabase} />
+          )}
 
-        {currentRoute === 'register' && (
-          <RegisterPage supabase={supabase} />
-        )}
+          {currentRoute === 'register' && (
+            <RegisterPage supabase={supabase} />
+          )}
 
-        {currentRoute === 'update-password' && (
-          <UpdatePasswordPage supabase={supabase} />
-        )}
+          {currentRoute === 'update-password' && (
+            <UpdatePasswordPage supabase={supabase} />
+          )}
 
-        {currentRoute === 'upload' && (
-          <>
-            {/* UploadPage sempre montada para preservar estado */}
-            <div style={{ display: uploadSuccessData ? 'none' : 'block' }}>
-              <UploadPage
-                key={uploadKey}
-                supabase={supabase}
-                session={session}
-                onSuccess={(data) => setUploadSuccessData(data)}
-              />
-            </div>
+          {currentRoute === 'upload' && (
+            <>
+              {/* UploadPage sempre montada para preservar estado */}
+              <div style={{ display: uploadSuccessData ? 'none' : 'block' }}>
+                <UploadPage
+                  key={uploadKey}
+                  supabase={supabase}
+                  session={session}
+                  onSuccess={(data) => setUploadSuccessData(data)}
+                />
+              </div>
 
-            {/* SuccessPage como Overlay */}
-            {uploadSuccessData && (
-              <SuccessPage
-                data={uploadSuccessData}
-                onEdit={() => setUploadSuccessData(null)}
-                onReset={() => {
-                  setUploadSuccessData(null);
-                  setUploadKey(prev => prev + 1);
-                }}
-              />
-            )}
-          </>
-        )}
+              {/* SuccessPage como Overlay */}
+              {uploadSuccessData && (
+                <SuccessPage
+                  data={uploadSuccessData}
+                  onEdit={() => setUploadSuccessData(null)}
+                  onReset={() => {
+                    setUploadSuccessData(null);
+                    setUploadKey(prev => prev + 1);
+                  }}
+                />
+              )}
+            </>
+          )}
+        </Suspense>
       </ErrorBoundary>
     </>
   );

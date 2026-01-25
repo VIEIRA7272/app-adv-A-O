@@ -6,6 +6,7 @@ import { cn } from '../lib/utils';
 import { Logo } from './Logo';
 import { PdfVisualEditor } from './PdfVisualEditor';
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from '../lib/config';
+import { OptimizedBackground } from './OptimizedBackground';
 
 export function UploadPage({ supabase, session, onSuccess }) {
     const [loading, setLoading] = useState(false);
@@ -223,14 +224,11 @@ export function UploadPage({ supabase, session, onSuccess }) {
     };
 
     return (
-        <div
-            className="min-h-screen bg-cover bg-center bg-no-repeat text-white font-sans flex flex-col animate-fade-in relative"
-            style={{
-                backgroundImage: `url('/login-bg.png')`
-            }}
+        <OptimizedBackground
+            imageSrc="/login-bg.png"
+            className="min-h-screen text-white font-sans flex flex-col animate-fade-in"
+            overlayClass="bg-black/85"
         >
-            {/* Dark Overlay for Readability */}
-            <div className="absolute inset-0 bg-black/85 backdrop-blur-sm z-0"></div>
             {/* Visual Editor Overlay */}
             {showVisualEditor && (
                 <PdfVisualEditor
@@ -537,6 +535,6 @@ export function UploadPage({ supabase, session, onSuccess }) {
                     </button>
                 </div>
             </footer>
-        </div >
+        </OptimizedBackground>
     );
 }

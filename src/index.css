@@ -1,3 +1,174 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ============================================
+   OTIMIZAÇÕES DE PERFORMANCE MOBILE
+   ============================================ */
+
+/* Otimização de renderização */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Força aceleração de GPU apenas onde necessário */
+.animate-spin,
+.animate-pulse,
+.animate-fade-in,
+.animate-fade-in-up,
+.animate-scale-in {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Remove will-change após animação (libera memória) */
+.animation-complete {
+  will-change: auto;
+}
+
+/* Otimização de scroll */
+html {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Previne layout shift */
+img, video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ============================================
+   ANIMAÇÕES CUSTOMIZADAS (Leves)
+   ============================================ */
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fade-in-up {
+  from { 
+    opacity: 0; 
+    transform: translateY(20px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+@keyframes scale-in {
+  from { 
+    opacity: 0; 
+    transform: scale(0.95); 
+  }
+  to { 
+    opacity: 1; 
+    transform: scale(1); 
+  }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out forwards;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.4s ease-out forwards;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.3s ease-out forwards;
+}
+
+.animate-shake {
+  animation: shake 0.3s ease-in-out;
+}
+
+/* ============================================
+   BOTÃO DOURADO OTIMIZADO
+   ============================================ */
+
+.btn-gold {
+  background: linear-gradient(to bottom, #C9A857, #AA8A39);
+  color: #000;
+  font-weight: bold;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-gold:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(201, 168, 87, 0.4);
+}
+
+.btn-gold:active {
+  transform: translateY(0);
+}
+
+/* ============================================
+   MOBILE-SPECIFIC OPTIMIZATIONS
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* Desabilita blur em mobile (GPU intensive) */
+  .backdrop-blur-xl,
+  .backdrop-blur-md,
+  .backdrop-blur-sm,
+  .backdrop-blur {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background-color: rgba(18, 18, 18, 0.95) !important;
+  }
+  
+  /* Reduz complexidade de sombras */
+  .shadow-2xl {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+  }
+  
+  /* Desabilita animações longas em dispositivos lentos */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* ============================================
+   LOADING STATES
+   ============================================ */
+
+.loading-skeleton {
+  background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s ease-in-out infinite;
+}
+
+@keyframes skeleton-loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Spinner otimizado */
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(201, 168, 87, 0.2);
+  border-top-color: #C9A857;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

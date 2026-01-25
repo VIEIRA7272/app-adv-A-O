@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Logo } from './Logo';
 import { UserPlus, Shield, CheckCircle, AlertTriangle } from 'lucide-react';
+import { OptimizedBackground } from './OptimizedBackground';
 
 export function RegisterPage({ supabase }) {
     const [email, setEmail] = useState('');
@@ -59,15 +60,10 @@ export function RegisterPage({ supabase }) {
     }
 
     return (
-        <div
-            className="min-h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center p-4 font-sans relative overflow-hidden"
-            style={{
-                backgroundImage: `url('/login-bg.png')`
-            }}
+        <OptimizedBackground
+            imageSrc="/login-bg.png"
+            className="min-h-screen flex items-center justify-center p-4 font-sans overflow-hidden"
         >
-            {/* Dark Overlay for Readability */}
-            <div className="absolute inset-0 bg-black/70 backdrop-blur-sm z-0"></div>
-
             <div className="w-full max-w-md bg-[#121212]/80 backdrop-blur-xl border border-[#333] p-8 md:p-10 rounded-2xl shadow-2xl relative z-10 animate-fade-in-up">
                 <div className="flex justify-center mb-8">
                     <Logo size="medium" />
@@ -136,6 +132,6 @@ export function RegisterPage({ supabase }) {
                     Sistema de Gestão Jurídica &bull; Acesso Restrito &bull; © 2026
                 </p>
             </div>
-        </div>
+        </OptimizedBackground>
     );
 }
