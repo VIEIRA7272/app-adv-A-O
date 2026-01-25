@@ -119,7 +119,12 @@ export function UploadPage({ supabase, session, onSuccess }) {
     const handleFinalizePdf = async (coords) => {
         setShowVisualEditor(false);
         setLoading(true);
-        setStatusMsg("Finalizando PDF...");
+        setStatusMsg("Iniciando processamento...");
+
+        // Pequeno delay para garantir que a interface atualize e mostre o loader
+        await new Promise(resolve => setTimeout(resolve, 100));
+
+        setStatusMsg("Gerando PDF com QR Code...");
 
         try {
             const landingUrl = `${window.location.origin}?v=${tempSlug}`;
