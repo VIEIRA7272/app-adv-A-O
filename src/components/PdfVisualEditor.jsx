@@ -1,7 +1,11 @@
-import React, { useState, useRef } from 'react';
-import { Document, Page } from 'react-pdf';
+import React, { useState, useRef, useEffect } from 'react';
+import { Document, Page, pdfjs } from 'react-pdf';
 import Draggable from 'react-draggable';
 import { Loader2, Move, AlertTriangle } from 'lucide-react';
+
+// Configuração do Worker do PDF (Essencial para produção)
+// Usando unpkg CDN para garantir que o worker seja carregado corretamente
+pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 // --- Error Boundary ---
 class ErrorBoundary extends React.Component {
