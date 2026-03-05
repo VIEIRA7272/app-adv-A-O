@@ -5,10 +5,11 @@ import QRCode from 'qrcode';
 import { cn } from '../lib/utils';
 import { PdfVisualEditor } from './PdfVisualEditor';
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from '../lib/config';
+import toast from 'react-hot-toast';
 
 export function UploadForm({ onSuccess, supabase }) {
     const [loading, setLoading] = useState(false);
-    const [_statusMsg, setStatusMsg] = useState("");
+    const [uploadProgress, setUploadProgress] = useState(0);
     const [processo, setProcesso] = useState("");
     const [titulo, setTitulo] = useState("");
     const [password, setPassword] = useState("");
@@ -38,59 +39,79 @@ export function UploadForm({ onSuccess, supabase }) {
         }
     };
 
-    const robustUpload = async (bucket, path, file) => {
-        try {
-            const { data, error } = await supabase.storage.from(bucket).upload(path, file, { upsert: true });
-            if (error) throw error;
-            return data;
-        } catch (err) {
-            if (err.message === 'Failed to fetch' || err.name === 'StorageUnknownError') {
-                const rawUrl = `${SUPABASE_URL}/storage/v1/object/${bucket}/${path}`;
-                const res = await fetch(rawUrl, {
-                    method: 'POST',
-                    headers: { 'Authorization': `Bearer ${SUPABASE_ANON_KEY}`, 'x-upsert': 'true', 'Content-Type': file.type },
-                    body: file
-                });
-                if (!res.ok) {
-                    const text = await res.text();
-                    if (text.includes('exceeded the maximum allowed size')) {
-                        throw new Error("O arquivo é maior que o limite permitido pelo banco de dados.");
-                    }
-                    throw new Error(`Erro Resgate (${res.status}): ${text}`);
+    const robustUpload = async (bucket, path, file, onProgress) => {
+        return new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            const rawUrl = `${SUPABASE_URL}/storage/v1/object/${bucket}/${path}`;
+
+            xhr.upload.addEventListener('progress', (e) => {
+                if (e.lengthComputable && onProgress) {
+                    const percentComplete = Math.round((e.loaded / e.total) * 100);
+                    onProgress(percentComplete);
                 }
-                return { path: path };
-            }
-            throw err;
-        }
+            });
+
+            xhr.addEventListener('load', () => {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    resolve({ path: path }); // return value similar to supabase client's
+                } else {
+                    let errMessage = xhr.responseText;
+                    try {
+                        const json = JSON.parse(xhr.responseText);
+                        errMessage = json.message || errMessage;
+                    } catch (e) { }
+                    if (errMessage.includes('exceeded the maximum allowed size')) {
+                        errMessage = "O arquivo é maior que o limite permitido pelo banco de dados.";
+                    }
+                    reject(new Error(`Erro Resgate (${xhr.status}): ${errMessage}`));
+                }
+            });
+
+            xhr.addEventListener('error', () => {
+                reject(new Error("Erro de rede ao efetuar upload via XHR."));
+            });
+
+            xhr.open('POST', rawUrl, true);
+            xhr.setRequestHeader('Authorization', `Bearer ${SUPABASE_ANON_KEY}`);
+            xhr.setRequestHeader('x-upsert', 'true');
+            xhr.setRequestHeader('Content-Type', file.type);
+            xhr.send(file);
+        });
     };
 
     const handleInitialProcess = async () => {
-        if (!processo || !pdfFile || !videoFile) { setErrorMsg("Por favor, preencha todos os campos e anexe os arquivos."); return; }
-        setLoading(true); setErrorMsg(null);
+        if (!processo || !pdfFile || !videoFile) {
+            toast.error("Por favor, preencha todos os campos e anexe os arquivos.");
+            setErrorMsg("Por favor, preencha todos os campos e anexe os arquivos.");
+            return;
+        }
+        setLoading(true); setErrorMsg(null); setUploadProgress(0);
         try {
             const slug = Math.random().toString(36).substring(2, 8).toUpperCase();
             const landingUrl = `${window.location.origin}?v=${slug}`;
 
-            setStatusMsg("Verificando arquivo...");
             const LIMIT_MB = 50;
             const LIMIT_BYTES = LIMIT_MB * 1024 * 1024;
 
             if (videoFile.size > LIMIT_BYTES) {
                 const sizeMB = (videoFile.size / 1024 / 1024).toFixed(2);
-                setErrorMsg(`O vídeo tem ${sizeMB}MB (Limite: 50MB). Por favor, comprima o arquivo antes de enviar.`);
+                const msg = `O vídeo tem ${sizeMB}MB (Limite: 50MB). Por favor, comprima o arquivo antes de enviar.`;
+                toast.error(msg);
+                setErrorMsg(msg);
                 setLoading(false);
                 return;
             }
 
-            setStatusMsg("Enviando vídeo...");
             const fileExt = videoFile.name.split('.').pop() || 'mp4';
             const safeRandomName = `video_${Date.now()}_${Math.floor(Math.random() * 10000)}.${fileExt}`;
             const videoPath = `videos/${slug}_${safeRandomName}`;
 
-            await robustUpload('videos-final-v3', videoPath, videoFile);
+            toast.loading("Enviando vídeo...", { id: "upload-video" });
+            await robustUpload('videos-final-v3', videoPath, videoFile, setUploadProgress);
+            toast.success("Vídeo enviado com sucesso!", { id: "upload-video" });
+
             const { data: videoUrlData } = supabase.storage.from('videos-final-v3').getPublicUrl(videoPath);
 
-            setStatusMsg("Gerando QR Code...");
             const qrCodeDataUrl = await QRCode.toDataURL(landingUrl, { errorCorrectionLevel: 'H', margin: 1, color: { dark: '#000000', light: '#FFFFFF' } });
 
             setTempSlug(slug);
@@ -101,16 +122,18 @@ export function UploadForm({ onSuccess, supabase }) {
 
         } catch (error) {
             console.error(error);
-            setErrorMsg(error.message || "Erro desconhecido");
+            const errMsg = error.message || "Erro desconhecido";
+            toast.error(errMsg, { id: "upload-video" });
+            setErrorMsg(errMsg);
             setLoading(false);
         }
     };
 
     const handleFinalizePdf = async (coords) => {
         setShowVisualEditor(false);
-        setLoading(true);
-        setStatusMsg("Finalizando PDF...");
+        setLoading(true); setUploadProgress(0);
 
+        toast.loading("Anexando QR Code no PDF...", { id: "upload-pdf" });
         try {
             const landingUrl = `${window.location.origin}?v=${tempSlug}`;
             const pdfBytes = await pdfFile.arrayBuffer();
@@ -158,10 +181,11 @@ export function UploadForm({ onSuccess, supabase }) {
             const modifiedPdfBytes = await pdfDoc.save();
             const modifiedPdfBlob = new Blob([modifiedPdfBytes], { type: 'application/pdf' });
 
-            setStatusMsg("Enviando PDF...");
             const pdfPath = `pecas/${tempSlug}_COM_QR.pdf`;
 
-            await robustUpload('pecas-final-v3', pdfPath, modifiedPdfBlob);
+            toast.loading("Enviando PDF final...", { id: "upload-pdf" });
+            await robustUpload('pecas-final-v3', pdfPath, modifiedPdfBlob, setUploadProgress);
+
             const { data: pdfUrlData } = supabase.storage.from('pecas-final-v3').getPublicUrl(pdfPath);
 
             const record = {
@@ -175,12 +199,14 @@ export function UploadForm({ onSuccess, supabase }) {
             const { error: dbErr } = await supabase.from('videos_pecas').insert([record]);
             if (dbErr) throw dbErr;
 
+            toast.success("Processo criado com sucesso!", { id: "upload-pdf" });
             onSuccess({ ...record, landingUrl, qrCodeDataUrl: generatedQrData });
         } catch (error) {
             console.error(error);
+            toast.error("Erro ao finalizar PDF: " + error.message, { id: "upload-pdf" });
             setErrorMsg("Erro ao finalizar PDF: " + error.message);
         } finally {
-            setLoading(false);
+            setLoading(false); setUploadProgress(0);
         }
     };
 
@@ -430,17 +456,24 @@ export function UploadForm({ onSuccess, supabase }) {
                             </div>
 
                             {/* Submit Button */}
-                            <button
-                                onClick={handleInitialProcess}
-                                disabled={loading}
-                                className="w-full btn-gold py-4 rounded-xl text-lg shadow-[0_10px_40px_-10px_rgba(201,168,87,0.3)] mt-6 uppercase tracking-widest font-bold btn-shimmer hover:scale-[1.01] active:scale-[0.99] transition-all flex justify-center items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed border border-[#C9A857]/20"
-                            >
-                                {loading ? (
-                                    <><Loader2 className="animate-spin" /> Processando...</>
-                                ) : (
-                                    <>Continuar <ChevronRight size={20} /></>
+                            <div className="mt-6">
+                                {loading && uploadProgress > 0 && uploadProgress < 100 && (
+                                    <div className="w-full bg-[#111] rounded-full h-2 mb-3 overflow-hidden border border-[#C9A857]/30 shadow-inner">
+                                        <div className="bg-gradient-to-r from-[#C9A857] to-[#e4d194] h-full rounded-full transition-all duration-300 ease-out shadow-[0_0_10px_rgba(201,168,87,0.5)]" style={{ width: `${uploadProgress}%` }}></div>
+                                    </div>
                                 )}
-                            </button>
+                                <button
+                                    onClick={handleInitialProcess}
+                                    disabled={loading}
+                                    className="w-full btn-gold py-4 rounded-xl text-lg shadow-[0_10px_40px_-10px_rgba(201,168,87,0.3)] uppercase tracking-widest font-bold btn-shimmer hover:scale-[1.01] active:scale-[0.99] transition-all flex justify-center items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed border border-[#C9A857]/20"
+                                >
+                                    {loading ? (
+                                        <><Loader2 className="animate-spin" /> {uploadProgress > 0 && uploadProgress < 100 ? `Enviando... ${uploadProgress}%` : 'Processando...'}</>
+                                    ) : (
+                                        <>Continuar <ChevronRight size={20} /></>
+                                    )}
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -6,6 +6,8 @@ import { GlobalStyles } from './components/GlobalStyles';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from './lib/config';
 
+import { Toaster } from 'react-hot-toast';
+
 // ============================================
 // LAZY LOADING - Componentes carregados sob demanda
 // Isso reduz drasticamente o bundle inicial
@@ -13,7 +15,6 @@ import { SUPABASE_URL, SUPABASE_ANON_KEY } from './lib/config';
 
 // Componentes pesados - carregados apenas quando necessário
 const AdminDashboard = lazy(() => import('./components/AdminDashboard').then(m => ({ default: m.AdminDashboard })));
-const UploadPage = lazy(() => import('./components/UploadPage').then(m => ({ default: m.UploadPage })));
 const LandingPage = lazy(() => import('./components/LandingPage').then(m => ({ default: m.LandingPage })));
 const LoginPage = lazy(() => import('./components/LoginPage').then(m => ({ default: m.LoginPage })));
 const RegisterPage = lazy(() => import('./components/RegisterPage').then(m => ({ default: m.RegisterPage })));
@@ -34,13 +35,9 @@ export default function App() {
   const [libsLoaded, setLibsLoaded] = useState(false);
   const [supabase, setSupabase] = useState(null);
   const [session, setSession] = useState(null);
-  const [currentRoute, setCurrentRoute] = useState('upload'); // 'upload', 'landing', 'login', 'admin'
+  const [currentRoute, setCurrentRoute] = useState('admin'); // 'landing', 'login', 'admin'
   const [landingData, setLandingData] = useState(null);
   const [loadError, setLoadError] = useState(null);
-
-  // Estado para controlar o sucesso do upload mantendo a UploadPage montada
-  const [uploadSuccessData, setUploadSuccessData] = useState(null);
-  const [uploadKey, setUploadKey] = useState(0);
 
   useEffect(() => {
     try {
@@ -150,6 +147,18 @@ export default function App() {
   return (
     <>
       <GlobalStyles />
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          className: '',
+          style: {
+            background: '#1a1a1a',
+            color: '#e5e7eb',
+            border: '1px solid rgba(201, 168, 87, 0.3)',
+            borderRadius: '12px',
+          }
+        }}
+      />
       <ErrorBoundary>
         {/* Suspense wrapper para lazy loading */}
         <Suspense fallback={<PageLoader />}>
@@ -183,32 +192,6 @@ export default function App() {
 
           {currentRoute === 'update-password' && (
             <UpdatePasswordPage supabase={supabase} />
-          )}
-
-          {currentRoute === 'upload' && (
-            <>
-              {/* UploadPage sempre montada para preservar estado */}
-              <div style={{ display: uploadSuccessData ? 'none' : 'block' }}>
-                <UploadPage
-                  key={uploadKey}
-                  supabase={supabase}
-                  session={session}
-                  onSuccess={(data) => setUploadSuccessData(data)}
-                />
-              </div>
-
-              {/* SuccessPage como Overlay */}
-              {uploadSuccessData && (
-                <SuccessPage
-                  data={uploadSuccessData}
-                  onEdit={() => setUploadSuccessData(null)}
-                  onReset={() => {
-                    setUploadSuccessData(null);
-                    setUploadKey(prev => prev + 1);
-                  }}
-                />
-              )}
-            </>
           )}
         </Suspense>
       </ErrorBoundary>
