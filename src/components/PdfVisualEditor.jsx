@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import Draggable from 'react-draggable';
 import { Loader2, Move, AlertTriangle } from 'lucide-react';
@@ -14,7 +14,7 @@ class ErrorBoundary extends React.Component {
         this.state = { hasError: false, error: null, errorInfo: null };
     }
 
-    static getDerivedStateFromError(error) {
+    static getDerivedStateFromError(_error) {
         return { hasError: true };
     }
 
@@ -49,7 +49,7 @@ class ErrorBoundary extends React.Component {
 }
 
 function PdfVisualEditorContent({ pdfFile, qrCodeDataUrl, onSave, onCancel }) {
-    const [numPages, setNumPages] = useState(null);
+    const [_numPages, setNumPages] = useState(null);
     const [pageWidth, setPageWidth] = useState(0);
     const [pageHeight, setPageHeight] = useState(0);
     const [pdfDimensions, setPdfDimensions] = useState({ width: 0, height: 0 }); // Dimensões originais do PDF (pontos)
@@ -76,7 +76,7 @@ function PdfVisualEditorContent({ pdfFile, qrCodeDataUrl, onSave, onCancel }) {
         setPosition({ x: page.width / 2 - 40, y: page.height / 2 - 40 });
     }
 
-    const handleStop = (e, data) => {
+    const handleStop = (_e, data) => {
         setPosition({ x: data.x, y: data.y });
     };
 
@@ -89,7 +89,7 @@ function PdfVisualEditorContent({ pdfFile, qrCodeDataUrl, onSave, onCancel }) {
         // Mas react-pdf/DOM usa origem no canto SUPERIOR esquerdo.
         // Então y_pdf = height_pdf - (y_dom * scaleY) - (height_qr * scaleY)
 
-        const qrSizeDom = 80; // Tamanho visual do QR Code
+        const _qrSizeDom = 80; // Tamanho visual do QR Code
         const qrSizePdf = 80; // Tamanho real que vamos desenhar no PDF
 
         // Ajuste: Garantir que x e y não sejam negativos

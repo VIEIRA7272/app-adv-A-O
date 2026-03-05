@@ -8,7 +8,7 @@ import { SUPABASE_URL, SUPABASE_ANON_KEY } from '../lib/config';
 
 export function UploadForm({ onSuccess, supabase }) {
     const [loading, setLoading] = useState(false);
-    const [statusMsg, setStatusMsg] = useState("");
+    const [_statusMsg, setStatusMsg] = useState("");
     const [processo, setProcesso] = useState("");
     const [titulo, setTitulo] = useState("");
     const [password, setPassword] = useState("");

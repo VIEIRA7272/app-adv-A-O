@@ -106,7 +106,7 @@ async function cacheFirst(request) {
             cache.put(request, response.clone());
         }
         return response;
-    } catch (error) {
+    } catch (_error) {
         // Retorna página offline se disponível
         return new Response('Offline', { status: 503 });
     }
@@ -121,7 +121,7 @@ async function networkFirst(request) {
             cache.put(request, response.clone());
         }
         return response;
-    } catch (error) {
+    } catch (_error) {
         const cached = await caches.match(request);
         return cached || new Response('Offline', { status: 503 });
     }

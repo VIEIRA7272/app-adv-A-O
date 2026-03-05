@@ -1,8 +1,14 @@
 import { CLIENTE_SUPABASE_URL, CLIENTE_SUPABASE_KEY } from './configuracao_cliente';
 
-// Se as chaves do cliente estiverem preenchidas (não forem o padrão), usa elas.
-// Caso contrário, usa as variáveis de ambiente (para desenvolvimento local).
-const isClientConfigured = CLIENTE_SUPABASE_URL.includes("supabase.co") && !CLIENTE_SUPABASE_URL.includes("SEU_PROJETO");
+// Prioridade: Variáveis de ambiente (.env) > Configuração do cliente (configuracao_cliente.js)
+// Em produção (Vercel), configure as variáveis VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY
+// no painel do Vercel em Settings > Environment Variables.
 
-export const SUPABASE_URL = isClientConfigured ? CLIENTE_SUPABASE_URL : import.meta.env.VITE_SUPABASE_URL;
-export const SUPABASE_ANON_KEY = isClientConfigured ? CLIENTE_SUPABASE_KEY : import.meta.env.VITE_SUPABASE_ANON_KEY;
+const envUrl = import.meta.env.VITE_SUPABASE_URL;
+const envKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+const isClientConfigured = CLIENTE_SUPABASE_URL.includes("supabase.co") && !CLIENTE_SUPABASE_URL.includes("SEU_PROJETO") && !CLIENTE_SUPABASE_URL.includes("COLOQUE");
+
+// .env tem prioridade — se existir, usa. Senão, tenta o configuracao_cliente.js
+export const SUPABASE_URL = envUrl || (isClientConfigured ? CLIENTE_SUPABASE_URL : '');
+export const SUPABASE_ANON_KEY = envKey || (isClientConfigured ? CLIENTE_SUPABASE_KEY : '');

@@ -7,10 +7,24 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependências
 node_modules
 dist
 dist-ssr
 *.local
+
+# Variáveis de ambiente (NUNCA commitar!)
+.env
+.env.local
+.env.development
+.env.production
+.env*.local
+
+# Configuração do cliente com chaves Supabase
+src/lib/configuracao_cliente.js
+
+# TestSprite
+.testsprite/
 
 # Editor directories and files
 .vscode/*

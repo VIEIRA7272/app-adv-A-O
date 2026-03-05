@@ -46,7 +46,7 @@ async function fixData() {
             console.log(`Attempting Update: ${p.email} -> ${match.new}`);
 
             // Check if update works
-            const { data, error: updateError, count } = await supabase
+            const { data, error: updateError, count: _count } = await supabase
                 .from('profiles')
                 .update({ email: match.new })
                 .eq('id', p.id)

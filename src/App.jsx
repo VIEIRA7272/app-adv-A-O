@@ -47,6 +47,7 @@ export default function App() {
       const client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
         auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
       });
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setSupabase(client);
       setLibsLoaded(true);
 
@@ -80,7 +81,7 @@ export default function App() {
 
     // 1. Rota Pública: Visualização do Cliente (Landing)
     if (videoSlug) {
-      setCurrentRoute('fetching_landing');
+      setCurrentRoute('fetching_landing'); // eslint-disable-line react-hooks/set-state-in-effect
       return;
     }
 
@@ -130,7 +131,7 @@ export default function App() {
       const params = new URLSearchParams(window.location.search);
       const slug = params.get('v');
       async function fetchData() {
-        const { data, error } = await supabase.from('videos_pecas').select('*').eq('slug', slug).single();
+        const { data, error: _fetchError } = await supabase.from('videos_pecas').select('*').eq('slug', slug).single();
         if (data) {
           setLandingData(data);
           setCurrentRoute('landing');

@@ -527,7 +527,7 @@ export function UploadPage({ supabase, session, onSuccess }) {
                     <button
                         onClick={async () => {
                             try {
-                                const { data, error } = await supabase.storage.listBuckets();
+                                const { error } = await supabase.storage.listBuckets();
                                 if (error) throw error;
                                 alert("CONEXÃO PERFEITA! ✅\nO sistema está 100% operacional.");
                             } catch (e) {

@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { UploadForm } from './UploadForm';
 import { OptimizedBackground } from './OptimizedBackground';
+import { AppTour } from './AppTour';
 
 export function AdminDashboard({ supabase, session }) {
     const [videos, setVideos] = useState([]);
@@ -124,7 +125,7 @@ export function AdminDashboard({ supabase, session }) {
 
     const checkUserRole = async () => {
         if (!session?.user?.id) return;
-        const { data, error } = await supabase
+        const { data, error: _error } = await supabase
             .from('profiles')
             .select('role')
             .eq('id', session.user.id)
@@ -292,6 +293,7 @@ export function AdminDashboard({ supabase, session }) {
                         {/* Navigation Tabs */}
                         <div className="flex items-center gap-6">
                             <button
+                                data-tour="tab-upload"
                                 onClick={() => setActiveTab('upload')}
                                 className={`group relative flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 ${activeTab === 'upload' ? 'bg-[#C9A857] text-[#111] shadow-lg shadow-[#C9A857]/20 scale-105' : 'bg-[#1a1a1a] text-gray-400 hover:bg-[#222] hover:text-white hover:-translate-y-0.5 border border-[#333]'}`}
                             >
@@ -300,6 +302,7 @@ export function AdminDashboard({ supabase, session }) {
                             </button>
 
                             <button
+                                data-tour="tab-processos"
                                 onClick={() => setActiveTab('processos')}
                                 className={`group relative flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 ${activeTab === 'processos' ? 'bg-[#C9A857] text-[#111] shadow-lg shadow-[#C9A857]/20 scale-105' : 'bg-[#1a1a1a] text-gray-400 hover:bg-[#222] hover:text-white hover:-translate-y-0.5 border border-[#333]'}`}
                             >
@@ -309,6 +312,7 @@ export function AdminDashboard({ supabase, session }) {
 
                             {isAdmin && (
                                 <button
+                                    data-tour="tab-equipe"
                                     onClick={() => setActiveTab('equipe')}
                                     className={`group relative flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 ${activeTab === 'equipe' ? 'bg-[#C9A857] text-[#111] shadow-lg shadow-[#C9A857]/20 scale-105' : 'bg-[#1a1a1a] text-gray-400 hover:bg-[#222] hover:text-white hover:-translate-y-0.5 border border-[#333]'}`}
                                 >
@@ -320,7 +324,7 @@ export function AdminDashboard({ supabase, session }) {
                     </div>
 
                     {/* Logout */}
-                    <button onClick={handleSignOut} className="p-2.5 hover:bg-red-900/20 rounded-xl text-slate-400 hover:text-red-400 transition-colors" title="Sair">
+                    <button data-tour="btn-logout" onClick={handleSignOut} className="p-2.5 hover:bg-red-900/20 rounded-xl text-slate-400 hover:text-red-400 transition-colors" title="Sair">
                         <LogOut size={20} />
                     </button>
                 </nav>
@@ -778,6 +782,9 @@ export function AdminDashboard({ supabase, session }) {
                         </div>
                     )
                 }
+
+                {/* Tour Guiado - Intro.js */}
+                <AppTour isAdmin={isAdmin} activeTab={activeTab} />
             </div >
         </OptimizedBackground>
     );

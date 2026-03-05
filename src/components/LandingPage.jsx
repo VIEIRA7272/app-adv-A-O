@@ -6,7 +6,7 @@ import noiseBg from '../assets/noise.svg';
 
 export function LandingPage({ data, supabase }) {
     // Inicializa com o valor que veio do banco (ou 0 se for nulo)
-    const [viewCount, setViewCount] = React.useState(data.views || 0);
+    const [_viewCount, setViewCount] = React.useState(data.views || 0);
 
     // Password Protection State
     const [isLocked, setIsLocked] = React.useState(!!data.access_password);
@@ -229,7 +229,7 @@ export function LandingPage({ data, supabase }) {
                         {/* Stats - Visualizações (Visível apenas para Admin agora) */}
                         <div className="flex justify-center md:justify-start items-center gap-4 text-gray-500">
                             <div className="text-[10px] md:text-xs uppercase tracking-wider opacity-70">
-                                {new Date(data.created_at || Date.now()).toLocaleDateString()}
+                                {new Date(data.created_at || new Date()).toLocaleDateString()}
                             </div>
                         </div>
 

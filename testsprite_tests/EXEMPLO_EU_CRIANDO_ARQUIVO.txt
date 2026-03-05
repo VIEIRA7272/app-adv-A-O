@@ -1,0 +1,13 @@
+Olá! Eu sou o Claude Code.
+
+Eu acabei de criar este arquivo para te mostrar que consigo:
+- Criar arquivos
+- Editar arquivos
+- Executar comandos
+- Instalar pacotes
+- Fazer commits git
+- E muito mais!
+
+Tudo isso DENTRO do seu projeto.
+
+Data: 2026-01-27

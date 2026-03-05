@@ -17,7 +17,7 @@ export function LoginPage({ supabase }) {
         setError(null);
 
         try {
-            const { data, error } = await supabase.auth.signInWithPassword({
+            const { error } = await supabase.auth.signInWithPassword({
                 email,
                 password,
             });
@@ -31,10 +31,10 @@ export function LoginPage({ supabase }) {
         }
     };
 
-    const handleCreateAdmin = async () => {
+    const _handleCreateAdmin = async () => {
         setLoading(true);
         try {
-            const { data, error } = await supabase.auth.signUp({
+            const { error } = await supabase.auth.signUp({
                 email: 'admin@admin.com',
                 password: 'admin123456',
             });
